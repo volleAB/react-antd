@@ -10,7 +10,6 @@ export default {
       dynamicImport: false,
       title: 'react-antd',
       dll: false,
-      
       routes: {
         exclude: [
           /models\//,
@@ -19,7 +18,14 @@ export default {
           /service\.(t|j)sx?$/,
           /components\//,
         ],
-      },
+      }
     }],
   ],
+  proxy: {
+    '/dev': {
+      target: "http://jsonplaceholder.typicode.com/",
+      changeOrigin: true,
+      pathRewrite: { "^/dev" : "" }
+    }
+  }
 }

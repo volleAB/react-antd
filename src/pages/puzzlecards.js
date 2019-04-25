@@ -13,12 +13,17 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onClickAdd: newCard => {
-      const action = {
-        type: `${namespace}/addNewCard`,
-        payload: newCard,
-      };
-      dispatch(action);
+    // onClickAdd: newCard => {
+    //   const action = {
+    //     type: `${namespace}/addNewCard`,
+    //     payload: newCard,
+    //   };
+    //   dispatch(action);
+    // }
+    onDidMount: () => {
+      dispatch({
+        type: `${namespace}/queryInitCards`,
+      });
     }
   }
 }
@@ -26,6 +31,9 @@ const mapDispatchToProps = dispatch => {
 class PuzzleCardsPage extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      cardList: []
+    }
     this.counter = 2
   }
   // addNewCard = () => {
@@ -42,27 +50,34 @@ class PuzzleCardsPage extends Component {
   //     }
   //   })
   // }
+  componentDidMount() {
+    this.props.onDidMount();
+  }
+  componentDidUpdate() {
+    // this.setState({cardList: this.props.cardList});
+    // console.log(this.props.cardList[0]);
+  }
   render() {
     return (
       <div>
         {
           this.props.cardList.map(card => {
             return (
-              <Card key={card.id} onClick={() => console.log(card.id)}>
-                <div>Q: {card.setup}</div>
+              <Card key={card.id} onClick={() => console.log(card)}>
+                <div>Title: {card.title}</div>
                 <div>
-                  <strong>A: {card.punchline}</strong>
+                  <strong>Body: {card.body}</strong>
                 </div>
               </Card>
             )
           })
         }
-        <div>
+        {/* <div>
           <Button onClick={() => this.props.onClickAdd({
             setup: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
             punchline: 'here we use dva',
           })}>添加卡片</Button>
-        </div>
+        </div> */}
       </div>
     )
   }
