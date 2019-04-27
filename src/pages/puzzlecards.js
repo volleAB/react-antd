@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Button } from 'antd';
+import { Card } from 'antd';
 import { connect } from 'dva';
 
 const namespace = 'puzzlecards';
@@ -34,7 +34,7 @@ class PuzzleCardsPage extends Component {
     this.state = {
       cardList: []
     }
-    this.counter = 2
+    this.counter = 2;
   }
   // addNewCard = () => {
   //   this.setState(prevState => {
@@ -55,7 +55,7 @@ class PuzzleCardsPage extends Component {
   }
   componentDidUpdate() {
     // this.setState({cardList: this.props.cardList});
-    // console.log(this.props.cardList[0]);
+    console.log(this.props.cardList[0]);
   }
   render() {
     return (

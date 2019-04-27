@@ -22,22 +22,29 @@ class BasicLayout extends Component {
                 <span>Helloworld</span>
               </Link>
             </Menu.Item>
+            <Menu.Item key="2">
+              <Link to="/list">
+                <Icon type="form" />
+                  <span>List</span>
+              </Link>
+            </Menu.Item>
             <SubMenu
               key="sub1"
               title={<span><Icon type="dashboard" /><span>Dashboard</span></span>}
             >
-              <Menu.Item key="2"><Link to="/dashboard/analysis">分析页</Link></Menu.Item>
-              <Menu.Item key="3"><Link to="/dashboard/monitor">监控页</Link></Menu.Item>
-              <Menu.Item key="4"><Link to="/dashboard/workplace">工作台</Link></Menu.Item>
+              <Menu.Item key="3"><Link to="/dashboard/analysis">分析页</Link></Menu.Item>
+              <Menu.Item key="4"><Link to="/dashboard/monitor">监控页</Link></Menu.Item>
+              <Menu.Item key="5"><Link to="/dashboard/workplace">工作台</Link></Menu.Item>
             </SubMenu>
             <SubMenu
               key="sub2"
               title={<span><Icon type="pie-chart" /><span>Test</span></span>}
             >
-              <Menu.Item key="5"><Link to="/test">测试页</Link></Menu.Item>
-              <Menu.Item key="6"><Link to="/products">商品页</Link></Menu.Item>
-              <Menu.Item key="7"><Link to="/puzzlecards">卡片页</Link></Menu.Item>
+              <Menu.Item key="6"><Link to="/test">测试页</Link></Menu.Item>
+              <Menu.Item key="7"><Link to="/products">商品页</Link></Menu.Item>
+              <Menu.Item key="8"><Link to="/puzzlecards">卡片页</Link></Menu.Item>
             </SubMenu>
+
           </Menu>
         </Sider>
         <Layout>
