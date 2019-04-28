@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import { Layout, Menu, Icon } from 'antd';
 import Link from 'umi/link'
-// import styles from './index.css';
+import logo from '../assets/logo.svg';
 
 const { Header, Footer, Sider, Content } = Layout;
 

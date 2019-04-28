@@ -56,6 +56,6 @@ export default {
         { genre: 'Shooter', sold: 350 },
         { genre: 'Other', sold: 150 },
       ]
-    })
-  }
+    });
+  },
 }

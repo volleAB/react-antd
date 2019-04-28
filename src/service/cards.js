@@ -21,5 +21,5 @@ export function addOne(data) {
 }
 
 export function getStatistic(id) {
-  return request(`/api/cads/${id}/statistic`);
+  return request(`/api/cards/${id}/statistic`);
 }

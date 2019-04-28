@@ -1,45 +1,65 @@
-import { Component } from 'react';
+import React from 'react';
 import { Table, Modal, Button, Form, Input } from 'antd';
 import { connect } from 'dva';
+import SampleChart from '../../components/SampleChart';
 
 const FormItem = Form.Item;
 
-function mapStateToProps(state) {
-  return {
-    cardsList: state.cards.cardsList,
-    cardsLoading: state.loading.effects['cards/queryList'],
-  }
-}
+class List extends React.Component {
+  state = {
+    visible: false,
+    statisticVisible: false,
+    id: null,
+  };
 
-class List extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      visible: false,
-      columns: [
-        {
-          title: '名称',
-          dataIndex: 'name',
-        },
-        {
-          title: '描述',
-          dataIndex: 'desc',
-        },
-        {
-          title: '链接',
-          dataIndex: 'url',
-          render: value => <a href={value}>{value}</a>,
-        },
-      ]
-    }
+  columns = [
+    {
+      title: '名称',
+      dataIndex: 'name',
+    },
+    {
+      title: '描述',
+      dataIndex: 'desc',
+    },
+    {
+      title: '链接',
+      dataIndex: 'url',
+      render(value) {
+        return (
+          <a href={value}>{value}</a>
+        );
+      },
+    },
+    {
+      title: '',
+      dataIndex: 'statistic',
+      render: (_, { id }) => {
+        return (
+          <Button onClick={() => { this.showStatistic(id); }}>图表</Button>
+        );
+      },
+    },
+  ];
+
+  componentDidMount() {
+    this.props.dispatch({
+      type: 'cards/queryList',
+    });
   }
 
   showModal = () => {
     this.setState({ visible: true });
   };
-  handleCancel = () => {
-    this.setState({ visible: false })
+
+  showStatistic = (id) => {
+    this.props.dispatch({
+      type: 'cards/getStatistic',
+      payload: id,
+    });
+    console.log(this.props.statistic);
+    this.setState({ id, statisticVisible: true });
   };
+
   handleOk = () => {
     const { dispatch, form: { validateFields } } = this.props;
 
@@ -49,24 +69,33 @@ class List extends Component {
           type: 'cards/addOne',
           payload: values,
         });
-        // 重置 `visible` 属性为 false 以关闭对话框
         this.setState({ visible: false });
       }
-    })
-  };
-  componentDidMount() {
-    this.props.dispatch({
-      type: 'cards/queryList',
     });
-  };
+  }
+
+  handleCancel = () => {
+    this.setState({
+      visible: false,
+    });
+  }
+
+  handleStatisticCancel = () => {
+    this.setState({
+      statisticVisible: false,
+    });
+  }
+
   render() {
-    const { cardsList, cardsLoading } = this.props;
-    const { columns, visible } = this.state;
-    const { form: { getFieldDecorator } } = this.props;
+    const { visible, statisticVisible, id } = this.state;
+    const { cardsList, cardsLoading, form: { getFieldDecorator }, statistic } = this.props;
+
     return (
       <div>
-        <Table columns={columns} dataSource={cardsList} loading={cardsLoading} rowKey="id" />
+        <Table columns={this.columns} dataSource={cardsList} loading={cardsLoading} rowKey="id" />
+
         <Button onClick={this.showModal}>新建</Button>
+
         <Modal
           title="新建记录"
           visible={visible}
@@ -76,7 +105,7 @@ class List extends Component {
           <Form>
             <FormItem label="名称">
               {getFieldDecorator('name', {
-                rules: [{ required: true }]
+                rules: [{ required: true }],
               })(
                 <Input />
               )}
@@ -95,13 +124,21 @@ class List extends Component {
             </FormItem>
           </Form>
         </Modal>
+
+        <Modal visible={statisticVisible} footer={null} onCancel={this.handleStatisticCancel}>
+          <SampleChart data={statistic[id]} />
+        </Modal>
       </div>
-    )
+    );
   }
 }
 
+function mapStateToProps(state) {
+  return {
+    cardsList: state.cards.cardsList,
+    cardsLoading: state.loading.effects['cards/queryList'],
+    statistic: state.cards.statistic,
+  };
+}
+
 export default connect(mapStateToProps)(Form.create()(List));
-
-
-//Form.create()(List)
-//这段代码的作用是创建一个高阶组件，为页面组件 List 提供表单所需要的内容(this.props.form)。

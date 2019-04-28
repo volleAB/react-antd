@@ -5,7 +5,7 @@ export default {
 
   state: {
     cardsList: [],
-    statisic: {},
+    statistic: {},
   },
 
   effects: {
@@ -51,7 +51,7 @@ export default {
         ...state,
         statistic: {
           ...state.statistic,
-          [id]: data
+          [id]: data,
         },
       }
     },
